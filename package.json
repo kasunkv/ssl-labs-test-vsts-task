@@ -1,0 +1,45 @@
+{
+  "name": "ssl-labs-test-vsts-task",
+  "version": "0.0.0",
+  "description": "Analyse the SSL configuration of any public web server using the Qualys SSL Labs SSL Server test.",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist && npm run clean-js && npm run clean-map",
+    "clean-js": "rimraf BuildTask/**/*.js",
+    "clean-map": "rimraf BuildTask/**/*.map",
+    "lint": "tslint -c tslint.json BuildTask\\ssl-labs-test\\**\\*.ts",
+    "compile": "npm run lint && tsc --project ./BuildTask",
+    "move-npm": "mkdirp dist/BuildTask/ssl-labs-test && copyfiles \"./package.json\" dist/BuildTask/ssl-labs-test",
+    "move-task": "copyfiles \"./BuildTask/ssl-labs-test/**/!(*.ts)\" dist",
+    "restore-prod": "pushd \"dist/BuildTask/ssl-labs-test\" && npm install --only=production && popd",
+    "build": "npm run move-npm && npm run restore-prod && npm run lint && npm run compile && npm run move-task",
+    "build-clean": "npm run clean && npm run build",
+    "publish-local": "tfx build tasks upload --task-path ./dist/BuildTask/ssl-labs-test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kasunkv/ssl-labs-test-vsts-task.git"
+  },
+  "keywords": [
+    "ssl", "ssl-test", "security", "ssl-labs", "qualys"
+  ],
+  "author": "Kasun Kodagoda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kasunkv/ssl-labs-test-vsts-task/issues"
+  },
+  "homepage": "https://github.com/kasunkv/ssl-labs-test-vsts-task#readme",
+  "dependencies": {
+    "vsts-task-lib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.47",
+    "@types/q": "^1.5.0",
+    "copyfiles": "^2.0.0",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.9.1",
+    "tslint-eslint-rules": "^5.1.0",
+    "tslint-microsoft-contrib": "^5.0.3",
+    "typescript": "^2.8.3"
+  }
+}

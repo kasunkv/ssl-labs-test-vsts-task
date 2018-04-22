@@ -1,0 +1,82 @@
+{
+    "manifestVersion": 1,
+    "id": "ssl-labs-test",
+    "name": "SSL Labs Test",
+    "publisher": "kasunkodagoda",
+    "version": "0.0.0",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "Analyse the SSL configuration of any public web server using the Qualys SSL Labs SSL Server test.",
+    "categories": [
+        "Build and release"
+    ],
+    "screenshots": [
+        {
+            "path": "screenshots/screenshot-0.png"
+        }
+    ],
+    "galleryFlags": [
+        "Public"
+    ],
+    "tags": [ "ssl", "ssl-test", "security", "ssl-labs", "qualys" ],
+    "icons": {
+        "default": "marketplace-icon.png"        
+    },
+    "content": {
+        "details": {
+            "path": "overview.md"
+        },
+        "license": {
+            "path": "LICENSE.md"
+        }
+    },
+    "links": {
+        "getstarted": {
+            "uri": "https://github.com/kasunkv/ssl-labs-test-vsts-task/wiki"
+        },
+        "support": {
+            "uri": "https://github.com/kasunkv/ssl-labs-test-vsts-task/issues"
+        },
+        "repository": {
+            "uri": "https://github.com/kasunkv/ssl-labs-test-vsts-task"
+        },
+        "issues": {
+            "uri": "https://github.com/kasunkv/ssl-labs-test-vsts-task/issues"
+        }
+    },
+    "branding": {
+        "color": "rgb(74, 74, 74)",
+        "theme": "dark"
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/kasunkv/ssl-labs-test-vsts-task"
+    },
+    "files": [
+        {
+            "path": "dist/BuildTask"
+        },
+        {
+            "path": "screenshots",
+            "addressable": true
+        }
+    ],
+    "contributions": [
+        {
+            "id": "ssl-labs-test",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "dist/BuildTask/ssl-labs-test"
+            }
+        }
+    ],
+    "CustomerQnASupport": {
+        "enableqna":"true"
+    } 
+}
