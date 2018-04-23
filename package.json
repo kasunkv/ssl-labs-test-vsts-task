@@ -21,7 +21,11 @@
     "url": "git+https://github.com/kasunkv/ssl-labs-test-vsts-task.git"
   },
   "keywords": [
-    "ssl", "ssl-test", "security", "ssl-labs", "qualys"
+    "ssl",
+    "ssl-test",
+    "security",
+    "ssl-labs",
+    "qualys"
   ],
   "author": "Kasun Kodagoda",
   "license": "MIT",
@@ -30,6 +34,8 @@
   },
   "homepage": "https://github.com/kasunkv/ssl-labs-test-vsts-task#readme",
   "dependencies": {
+    "inversify": "^4.13.0",
+    "node-ssllabs": "^0.5.0",
     "vsts-task-lib": "^2.4.0"
   },
   "devDependencies": {
