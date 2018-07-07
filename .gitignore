@@ -59,3 +59,10 @@ typings/
 
 # Ignore VS Code
 .vscode
+
+# Ignore generated files
+*.js
+*.vsix
+*.log
+*.map
+dist/
