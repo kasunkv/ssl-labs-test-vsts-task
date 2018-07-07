@@ -2,7 +2,7 @@
   "name": "ssl-labs-test-vsts-task",
   "version": "0.0.0",
   "description": "Analyse the SSL configuration of any public web server using the Qualys SSL Labs SSL Server test.",
-  "main": "index.js",
+  "main": "ssl-labs-test.js",
   "scripts": {
     "clean": "rimraf dist && npm run clean-js && npm run clean-map",
     "clean-js": "rimraf BuildTask/**/*.js",
@@ -34,12 +34,13 @@
   },
   "homepage": "https://github.com/kasunkv/ssl-labs-test-vsts-task#readme",
   "dependencies": {
-    "inversify": "^4.13.0",
+    "inversify": "^4.11.1",
+    "reflect-metadata": "^0.1.12",
     "node-ssllabs": "^0.5.0",
-    "vsts-task-lib": "^2.4.0"
+    "vsts-task-lib": "^2.1.0"
   },
   "devDependencies": {
-    "@types/node": "^8.0.47",
+    "@types/node": "^8.10.21",
     "@types/q": "^1.5.0",
     "copyfiles": "^2.0.0",
     "rimraf": "^2.6.2",

@@ -23,7 +23,7 @@
     ],
     "tags": [ "ssl", "ssl-test", "security", "ssl-labs", "qualys" ],
     "icons": {
-        "default": "marketplace-icon.png"        
+        "default": "marketplace-icon.png"
     },
     "content": {
         "details": {
