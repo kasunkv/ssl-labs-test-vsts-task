@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/AArnott/vso-agent-tasks/9b41d803a/tasks.schema.json",
-    "id": "86e3367d-c1d2-40a3-ab67-abd1924ce49f",
+    "id": "e8b09a33-b350-45f9-a546-2f4bc926e402",
     "name": "ssl-labs-test",
     "friendlyName": "SSL Labs Test",
     "description": "Analyse the SSL configuration of any public web server using the Qualys SSL Labs SSL Server test.",
