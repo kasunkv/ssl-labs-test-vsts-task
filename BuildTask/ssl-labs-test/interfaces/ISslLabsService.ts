@@ -1,3 +1,5 @@
 export interface ISslLabsService {
-    executeSslTest(): Promise<string>;
+    executeSslTest(): Promise<any>;
+    getSslCertificateGrade(sslResult: any): Promise<Number>;
+    timeTillCertificateExpiration(sslResult: any): Promise<number>;
 }
