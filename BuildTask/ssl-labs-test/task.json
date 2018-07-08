@@ -5,7 +5,7 @@
     "friendlyName": "SSL Labs Test",
     "description": "Analyse the SSL configuration of any public web server using the Qualys SSL Labs SSL Server test.",
     "helpMarkDown": "[More Information](https://github.com/kasunkv/ssl-labs-test-vsts-task)",
-    "category": "Utility",
+    "category": "Test",
     "visibility": [
         "Build",
         "Release"
