@@ -1,12 +1,11 @@
-import { CertificateGrade, CertificateGradeScore } from './Constants';
 import * as SslLabs from 'node-ssllabs';
+import { Options } from 'node-ssllabs';
 import { inject, injectable } from 'inversify';
 
 import { ITaskInput } from './interfaces/ITaskInput';
 import { ISslLabsService } from './interfaces/ISslLabsService';
 
-import { Options } from 'node-ssllabs';
-import { TaskInput } from './TaskInput';
+import { CertificateGrade, CertificateGradeScore } from './Constants';
 
 import TYPES from './di/types';
 
@@ -78,9 +77,12 @@ export class SslLabsService implements ISslLabsService {
                     const endpoint: any = sslResult.endpoints.shift();
 
                     const expDate = Number(endpoint.details.cert.notAfter);
+                    console.log(`Certificate expire date: ${new Date(expDate)}`);
+
                     const currDate = Date.now();
                     const singleDay = 24 * 60 * 60 * 1000;
                     const dateDiff = Math.round(Math.abs((expDate - currDate) / singleDay));
+                    console.log(`Days till certificate expires: ${dateDiff}`);
 
                     resolve(dateDiff);
 
@@ -95,6 +97,8 @@ export class SslLabsService implements ISslLabsService {
     }
 
     private convertCertificateGradeToNumber(grade: string): Number {
+        console.log(`Certificate Grade: ${grade}`);
+
         let gradeScore: Number = 0;
         switch (grade) {
             case CertificateGrade.A_PLUS:

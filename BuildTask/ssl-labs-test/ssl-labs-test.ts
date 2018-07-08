@@ -19,15 +19,19 @@ async function run(): Promise<string> {
             
             Task.debug(taskInput.toJSON());
             Task.debug('Executing SSL Labs Scan with the given inputs');
+            console.log(`Starting SSL Labs Scan for the hostname: ${taskInput.Hostname}`);
 
             const scanResult = await sslLabsService.executeSslTest();
+            console.log('Scan Completed...');
+
 
             // Check for Verifications
             if (taskInput.EnableVerification) {
+                console.log(`Verifications are Enabled with the Alert Mode: ${taskInput.AlertMode}`);
                 const certGradeScore = await sslLabsService.getSslCertificateGrade(scanResult);
 
                 if (Number(taskInput.MinimumCertGrade) > certGradeScore) {
-
+                    console.log('Minimum certifiate grade threshold exceeded. Executing Alert');
                     // If certificate grade threshold is passed
                     switch (taskInput.AlertMode) {
                         case AlertMode.BREAK_BUILD:
@@ -41,12 +45,14 @@ async function run(): Promise<string> {
             }
 
             if (taskInput.EnableExpirationAlert) {
-                const timeDiff: number = await sslLabsService.timeTillCertificateExpiration(scanResult);
+                console.log('Certificate expiration alerts Enabled.');
+                const daysTillExpire: number = await sslLabsService.timeTillCertificateExpiration(scanResult);
 
-                if (timeDiff < taskInput.DaysBeforeExpiration) {
+                if (daysTillExpire < taskInput.DaysBeforeExpiration) {
+                    console.log('Minimum certifiate expire threshold exceeded. Executing Alert');
                     switch (taskInput.AlertMode) {
                         case AlertMode.BREAK_BUILD:
-                            throw new Error(`SSL certificate is nearing expireation and will expire in ${timeDiff} Days.`);
+                            throw new Error(`SSL certificate is nearing expireation and will expire in ${daysTillExpire} Days.`);
 
                         case AlertMode.SET_VARIABLE:
                             Task.setVariable(taskInput.VariableName, taskInput.VariableContent, false);
@@ -65,11 +71,9 @@ async function run(): Promise<string> {
 
 run()
     .then((res: string) => {
-        console.log(res);
         Task.setResult(Task.TaskResult.Succeeded, res);
     })
     .catch((err: any) => {
         const msg = `Task Failed. Error: ${JSON.stringify(err)}`;
-        console.log(msg);
         Task.setResult(Task.TaskResult.Failed, msg);
     });
