@@ -24,12 +24,13 @@ export class SslLabsService implements ISslLabsService {
         const promise = new Promise<any>((resolve, reject) => {
             try {
 
-                const options: Options = new Options();
-                options.host = this._taskInput.Hostname;
-                options.maxAge = 24;
-                options.publish = this._taskInput.PublishScanResults;
-                options.startNew = this._taskInput.FreshScan;
-                options.all = 'done';
+                const options: Options = {
+                    host: this._taskInput.Hostname,
+                    maxAge: 24,
+                    publish: this._taskInput.PublishScanResults,
+                    startNew: this._taskInput.FreshScan,
+                    all: 'done'
+                };
 
                 SslLabs.scan(options, (err: any, res: any) => {
                     if (err) {

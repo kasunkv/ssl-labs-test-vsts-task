@@ -11,13 +11,13 @@ declare module 'node-ssllabs' {
 
     class Options {
         host: string;
-        fromCache: boolean;
+        fromCache?: boolean;
         maxAge: number;
         publish: boolean;
         startNew: boolean;
         all: string;
-        ignoreMismatch: boolean;
-        s: string;
+        ignoreMismatch?: boolean;
+        s?: string;
     }
 
     // interface Info {
