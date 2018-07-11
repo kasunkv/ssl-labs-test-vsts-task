@@ -52,7 +52,7 @@ export class SslLabsService implements ISslLabsService {
                 }
 
                 if (sslResult.endpoints.length > 0) {
-                    const endpoint: any = sslResult.endpoints.shift();
+                    const endpoint: any = sslResult.endpoints[0];
                     const gradeScore: Number = this.convertCertificateGradeToNumber(endpoint.grade);
                     resolve(gradeScore);
                 } else {
@@ -74,7 +74,7 @@ export class SslLabsService implements ISslLabsService {
                 }
 
                 if (sslResult.endpoints.length > 0) {
-                    const endpoint: any = sslResult.endpoints.shift();
+                    const endpoint: any = sslResult.endpoints[0];
 
                     const expDate = Number(endpoint.details.cert.notAfter);
                     console.log(`Certificate expire date: ${new Date(expDate)}`);
