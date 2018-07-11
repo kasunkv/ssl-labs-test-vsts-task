@@ -7,6 +7,7 @@ import TYPES from './di/types';
 import { AlertMode } from './Constants';
 import { ISslLabsService } from './interfaces/ISslLabsService';
 import { ITaskInput } from './interfaces/ITaskInput';
+import { ILogger } from './interfaces/ILogger';
 
 Task.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -16,22 +17,23 @@ async function run(): Promise<string> {
            
             const taskInput: ITaskInput = container.get<ITaskInput>(TYPES.ITaskInput);
             const sslLabsService: ISslLabsService = container.get<ISslLabsService>(TYPES.ISslLabsService);
+            const logger: ILogger = container.get<ILogger>(TYPES.ILogger);
             
-            Task.debug(taskInput.toJSON());
-            Task.debug('Executing SSL Labs Scan with the given inputs');
-            console.log(`Starting SSL Labs Scan for the hostname: ${taskInput.Hostname}`);
+            logger.logDebug(taskInput.toJSON());
+            logger.logDebug('Executing SSL Labs Scan with the given inputs');
+            logger.logConsole(`Starting SSL Labs Scan for the hostname: ${taskInput.Hostname}`);
 
-            const scanResult = await sslLabsService.executeSslTest();
-            console.log('Scan Completed...');
+            const scanResult: any = await sslLabsService.executeSslTest();
+            logger.logConsole('Scan Completed...');
 
 
             // Check for Verifications
             if (taskInput.EnableVerification) {
-                console.log(`Verifications are Enabled with the Alert Mode: ${taskInput.AlertMode}`);
+                logger.logConsole(`Verifications are Enabled with the Alert Mode: ${taskInput.AlertMode}`);
                 const certGradeScore = await sslLabsService.getSslCertificateGrade(scanResult);
 
                 if (Number(taskInput.MinimumCertGrade) > certGradeScore) {
-                    console.log('Minimum certifiate grade threshold exceeded. Executing Alert');
+                    logger.logConsole('Minimum certifiate grade threshold exceeded. Executing Alert');
                     // If certificate grade threshold is passed
                     switch (taskInput.AlertMode) {
                         case AlertMode.BREAK_BUILD:
@@ -45,11 +47,11 @@ async function run(): Promise<string> {
             }
 
             if (taskInput.EnableExpirationAlert) {
-                console.log('Certificate expiration alerts Enabled.');
+                logger.logConsole('Certificate expiration alerts Enabled.');
                 const daysTillExpire: number = await sslLabsService.timeTillCertificateExpiration(scanResult);
 
                 if (daysTillExpire < taskInput.DaysBeforeExpiration) {
-                    console.log('Minimum certifiate expire threshold exceeded. Executing Alert');
+                    logger.logConsole('Minimum certifiate expire threshold exceeded. Executing Alert');
                     switch (taskInput.AlertMode) {
                         case AlertMode.BREAK_BUILD:
                             throw new Error(`SSL certificate is nearing expireation and will expire in ${daysTillExpire} Days.`);

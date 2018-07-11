@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 
 import { ITaskInput } from './interfaces/ITaskInput';
 import { ISslLabsService } from './interfaces/ISslLabsService';
+import { ILogger } from './interfaces/ILogger';
 
 import { CertificateGrade, CertificateGradeScore } from './Constants';
 
@@ -12,11 +13,14 @@ import TYPES from './di/types';
 @injectable()
 export class SslLabsService implements ISslLabsService {
     private _taskInput: ITaskInput;
+    private _logger: ILogger;
 
     constructor(
-        @inject(TYPES.ITaskInput) taskInput: ITaskInput
+        @inject(TYPES.ITaskInput) taskInput: ITaskInput,
+        @inject(TYPES.ILogger) logger: ILogger
     ) {
         this._taskInput = taskInput;
+        this._logger = logger;
     }
 
     executeSslTest(): Promise<any> {
@@ -51,6 +55,8 @@ export class SslLabsService implements ISslLabsService {
                     reject('SSLLabs Scan Result is null or undefined');
                 }
 
+                this._logger.logDebug(`SSLResult endpoint length: ${sslResult.endpoints.length}`);
+
                 if (sslResult.endpoints.length > 0) {
                     const endpoint: any = sslResult.endpoints[0];
                     const gradeScore: Number = this.convertCertificateGradeToNumber(endpoint.grade);
@@ -73,16 +79,18 @@ export class SslLabsService implements ISslLabsService {
                     reject('SSLLabs Scan Result is null or undefined');
                 }
 
+                this._logger.logDebug(`SSLResult endpoint length: ${sslResult.endpoints.length}`);
+
                 if (sslResult.endpoints.length > 0) {
                     const endpoint: any = sslResult.endpoints[0];
 
                     const expDate = Number(endpoint.details.cert.notAfter);
-                    console.log(`Certificate expire date: ${new Date(expDate)}`);
+                    this._logger.logConsole(`Certificate expire date: ${new Date(expDate)}`);
 
                     const currDate = Date.now();
                     const singleDay = 24 * 60 * 60 * 1000;
                     const dateDiff = Math.round(Math.abs((expDate - currDate) / singleDay));
-                    console.log(`Days till certificate expires: ${dateDiff}`);
+                    this._logger.logConsole(`Days till certificate expires: ${dateDiff}`);
 
                     resolve(dateDiff);
 
@@ -97,7 +105,7 @@ export class SslLabsService implements ISslLabsService {
     }
 
     private convertCertificateGradeToNumber(grade: string): Number {
-        console.log(`Certificate Grade: ${grade}`);
+        this._logger.logConsole(`Certificate Grade: ${grade}`);
 
         let gradeScore: Number = 0;
         switch (grade) {
