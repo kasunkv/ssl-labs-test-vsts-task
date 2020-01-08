@@ -54,7 +54,7 @@ async function run(): Promise<string> {
                     logger.logConsole('Minimum certifiate expire threshold exceeded. Executing Alert');
                     switch (taskInput.AlertMode) {
                         case AlertMode.BREAK_BUILD:
-                            throw new Error(`SSL certificate is nearing expireation and will expire in ${daysTillExpire} Days.`);
+                            throw new Error(`SSL certificate is nearing expiration and will expire in ${daysTillExpire} Days.`);
 
                         case AlertMode.SET_VARIABLE:
                             Task.setVariable(taskInput.VariableName, taskInput.VariableContent, false);
